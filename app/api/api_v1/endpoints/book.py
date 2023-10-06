@@ -13,7 +13,7 @@ user_router = APIRouter()
 async def retrieve_books(q: str):
     
     google_books = GoogleBooksService()
-    books = await google_books.retrieve_books(q=q)
+    books = google_books.retrieve_books(q=q)
     return books
 
 
