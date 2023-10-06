@@ -10,7 +10,7 @@ from bson import ObjectId
 user_router = APIRouter()
 
 @user_router.get("/", status_code=200)
-async def retrieve_books(q: str) -> List[BookDocument]:
+async def retrieve_books(q: str):
     
     google_books = GoogleBooksService()
     books = await google_books.retrieve_books(q=q)
