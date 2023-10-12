@@ -1,26 +1,31 @@
 from fastapi import APIRouter
+from typing import List
+from pymongo.errors import DuplicateKeyError 
 
-from app.documents.books.book import BookDocument
+from app.documents.books.book import BookItem
 from app.services.google_books import GoogleBooksService
 
-from typing import List
-from beanie import PydanticObjectId
-from bson import ObjectId
+book_router = APIRouter()
 
-user_router = APIRouter()
+@book_router.get("/category", status_code=200)
+async def retrieve_books_by_category(category: str) -> List[BookItem]:
+    books = await BookItem.find({"volumeInfo.categories": category}).to_list()
+    return books
 
-@user_router.get("/", status_code=200)
-async def retrieve_books(q: str):
-    
+@book_router.get("/", status_code=200)
+async def retrieve_books(q: str) -> List[BookItem]:
     google_books = GoogleBooksService()
     books = google_books.retrieve_books(q=q)
+    documents = [BookItem(**bk) for bk in books["items"]]
+    for doc in documents:
+        try:
+            await doc.insert()
+        except DuplicateKeyError as e:
+            continue
+    
     return books
 
 
-@user_router.get("/{user_id}", status_code=200)
-async def retrieve_book(book_id: PydanticObjectId) -> BookDocument:
-    user = await BookDocument.get(book_id)
-    return user
 
 
 
