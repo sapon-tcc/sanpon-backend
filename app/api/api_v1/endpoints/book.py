@@ -20,7 +20,7 @@ async def retrieve_books(q: str, s: str) -> List[BookItem]:
         except DuplicateKeyError as e:
             continue
     
-    return books
+    return documents
 
 
 
