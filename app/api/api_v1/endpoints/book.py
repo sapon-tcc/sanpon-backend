@@ -13,7 +13,7 @@ book_router = APIRouter()
 async def retrieve_books(q: str, s: str) -> List[BookItem]:
     google_books = GoogleBooksService()
     books = google_books.retrieve_books(q=q, s=s)
-    documents = [BookItem(**bk) for bk in books["items"]]
+    documents = [BookItem(**bk) for bk in books["items"] if bk["volumeInfo"].get("imageLinks")]
     for doc in documents:
         try:
             await doc.insert()
