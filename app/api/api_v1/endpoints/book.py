@@ -7,15 +7,12 @@ from app.services.google_books import GoogleBooksService
 
 book_router = APIRouter()
 
-@book_router.get("/category", status_code=200)
-async def retrieve_books_by_category(category: str) -> List[BookItem]:
-    books = await BookItem.find({"volumeInfo.categories": category}).to_list()
-    return books
+
 
 @book_router.get("/", status_code=200)
-async def retrieve_books(q: str) -> List[BookItem]:
+async def retrieve_books(q: str, s: str) -> List[BookItem]:
     google_books = GoogleBooksService()
-    books = google_books.retrieve_books(q=q)
+    books = google_books.retrieve_books(q=q, s=s)
     documents = [BookItem(**bk) for bk in books["items"]]
     for doc in documents:
         try:
@@ -24,6 +21,7 @@ async def retrieve_books(q: str) -> List[BookItem]:
             continue
     
     return books
+
 
 
 
