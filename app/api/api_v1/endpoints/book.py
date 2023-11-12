@@ -14,7 +14,12 @@ async def retrieve_books(q: str, s: str) -> List[BookItem]:
     google_books = GoogleBooksService()
     books = google_books.retrieve_books(q=q, s=s)
     if books:
-        documents = [BookItem(**bk) for bk in books["items"] if bk["volumeInfo"].get("imageLinks")]
+        documents = [
+            BookItem(**bk) 
+            for bk in books["items"] 
+            if bk["volumeInfo"].get("imageLinks")
+            and q in bk["volumeInfo"]["title"]
+        ]
         for doc in documents:
             try:
                 await doc.insert()
