@@ -13,7 +13,7 @@ book_router = APIRouter()
 async def retrieve_books(q: str, s: str) -> List[BookItem]:
     google_books = GoogleBooksService()
     books = google_books.retrieve_books(q=q, s=s)
-    if books:
+    if books["totalItems"] > 0:
         documents = [
             BookItem(**bk) 
             for bk in books["items"] 
@@ -28,6 +28,7 @@ async def retrieve_books(q: str, s: str) -> List[BookItem]:
         
         return documents
 
+    return []
 
 
 
