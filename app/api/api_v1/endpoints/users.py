@@ -1,5 +1,8 @@
+from typing import Any
+
 from fastapi import APIRouter, HTTPException, Depends
 from app.documents.users.user import UsersDocument, UserCreateDocument
+from app import schemas
 from app.core import security
 from app.auth.auth import get_current_active_user
 from typing import List
@@ -7,6 +10,16 @@ from beanie import PydanticObjectId
 from bson import ObjectId
 
 user_router = APIRouter()
+
+
+@user_router.get("/me", response_model=schemas.User)
+def read_user_me(
+    current_user: schemas.User = Depends(get_current_active_user),
+) -> Any:
+    """
+    Get current user.
+    """
+    return current_user
 
 @user_router.get("/", status_code=200)
 async def retrieve_users(current_user: UserCreateDocument = Depends(get_current_active_user)) -> List[UsersDocument]:
