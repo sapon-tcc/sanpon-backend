@@ -10,7 +10,7 @@ book_router = APIRouter()
 
 
 @book_router.get("/", status_code=200)
-async def retrieve_books(q: str, s: str) -> List[BookItem]:
+async def retrieve_books(q: str= "", s: str = "") -> List[BookItem]:
     google_books = GoogleBooksService()
     books = google_books.retrieve_books(q=q, s=s)
     if books["totalItems"] > 0:
@@ -18,7 +18,7 @@ async def retrieve_books(q: str, s: str) -> List[BookItem]:
             BookItem(**bk) 
             for bk in books["items"] 
             if bk["volumeInfo"].get("imageLinks")
-            and (q in bk["volumeInfo"]["title"] and not s)
+            and (q in bk["volumeInfo"]["title"])
         ]
         for doc in documents:
             try:
