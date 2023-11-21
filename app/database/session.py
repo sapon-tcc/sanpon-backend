@@ -2,7 +2,7 @@ import beanie
 import motor
 import motor.motor_asyncio
 from app.documents.users.user import UsersDocument, UserCreateDocument
-from app.documents.books.book import VolumeInfo, AccessInfo, SaleInfo, ImageLinks, ReadingModes, BookItem, PanelizationSummary, IndustryIdentifier
+from app.documents.books.book import VolumeInfo, AccessInfo, SaleInfo, ImageLinks, ReadingModes, BookItem, PanelizationSummary, IndustryIdentifier, Opinion
 from app.core.config import settings
 
 
@@ -16,7 +16,8 @@ models = [
     ReadingModes,
     BookItem,
     PanelizationSummary,
-    IndustryIdentifier
+    IndustryIdentifier,
+    Opinion
 ]
 
 async def init_db():

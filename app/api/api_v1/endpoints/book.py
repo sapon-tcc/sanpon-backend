@@ -2,7 +2,7 @@ from fastapi import APIRouter
 from typing import List
 from pymongo.errors import DuplicateKeyError 
 
-from app.documents.books.book import BookItem
+from app.documents.books.book import BookItem, Opinion
 from app.services.google_books import GoogleBooksService
 
 book_router = APIRouter()
@@ -31,9 +31,13 @@ async def retrieve_books(q: str= "", s: str = "") -> List[BookItem]:
 
 @book_router.get("/{book_id}", status_code=200)
 async def retrieve_books(book_id: str) -> BookItem:
-    book = await BookItem.get(book_id)
+    book = await BookItem.get(book_id)    
     return book
 
+@book_router.get("/opinion/{book_id}", status_code=200)
+async def retrieve_opnions_by_books(book_id: str) -> List[Opinion] :
+    opnions = await Opinion.find({"book_id": book_id}).to_list()
+    return opnions
 
 
 

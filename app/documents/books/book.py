@@ -2,10 +2,11 @@ from beanie import Document
 from typing import List, Optional
 
 class Opinion(Document):
-    id: str
-    text: str
-    book_id: str
+    text: Optional[str]
+    book_id: Optional[str]
     
+    class Settings:
+        name = "opinioes"
 
 class IndustryIdentifier(Document):
     type: Optional[str]
@@ -93,6 +94,7 @@ class BookItem(Document):
     saleInfo: Optional[SaleInfo]
     accessInfo: Optional[AccessInfo]
     searchInfo: Optional[dict]
+    opnions: Optional[List[Opinion]]
 
     class Settings:
         name = "books"
