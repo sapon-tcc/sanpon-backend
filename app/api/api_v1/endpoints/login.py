@@ -16,14 +16,14 @@ login_router = APIRouter()
 
 @login_router.post("/login/access-token", response_model=schemas.Token)
 async def login_access_token(
-    form_data: OAuth2PasswordRequestForm = Depends()
+    loginData
 ):
     """
     OAuth2 compatible token login, get an access token for future requests
     """
 
-    user = await UsersDocument.find_one({"nm_email": form_data.username})    
-    if not user or not security.verify_password(form_data.password, user.nm_password):
+    user = await UsersDocument.find_one({"nm_email": loginData.username})    
+    if not user or not security.verify_password(loginData.password, user.nm_password):
         raise HTTPException(status_code=400, detail="Incorrect email or password")
 
     elif not user.is_active:
