@@ -30,6 +30,11 @@ async def retrieve_books(q: str= "", s: str = "") -> List[BookItem]:
 
     return []
 
+@book_router.get("/{book_id}", status_code=200)
+async def retrieve_books(book_id: str) -> BookItem:
+    book = await BookItem.get(book_id)
+    return book
+
 
 
 
