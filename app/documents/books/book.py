@@ -1,6 +1,12 @@
 from beanie import Document
 from typing import List, Optional
 
+class Opinion(Document):
+    id: str
+    text: str
+    book_id: str
+    
+
 class IndustryIdentifier(Document):
     type: Optional[str]
     identifier: Optional[str]

@@ -7,14 +7,14 @@ class GoogleBooksService():
     
     def retrieve_books(self, q: str, s: str = "") -> dict:
         base_url = "https://www.googleapis.com/books/v1/volumes"
-        params = {
-            'q': q,
-            'maxResults': 40,
-            'langRestrict': "pt"
-        }
+
+        if q and not s:
+            url = f"{base_url}?q={q}"
         
-        if s:
-            params['q'] = f"{params['q']}+subject:{s}"
+        elif s:
+            url = f"{base_url}?q={q}+subject:{s}"
+            
+        url = f"{url}&maxResults=40&langRestrict=pt"
         
-        response = requests.get(base_url, params=params)
+        response = requests.get(url)
         return response.json()

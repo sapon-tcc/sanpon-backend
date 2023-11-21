@@ -18,7 +18,6 @@ async def retrieve_books(q: str= "", s: str = "") -> List[BookItem]:
             BookItem(**bk) 
             for bk in books["items"] 
             if bk["volumeInfo"].get("imageLinks")
-            and (q in bk["volumeInfo"]["title"])
         ]
         for doc in documents:
             try:
