@@ -10,5 +10,3 @@ services:
     volumes:
       - ./app:/app
       - ./app/.env:/app/.env
-    networks:
-      - app-network
