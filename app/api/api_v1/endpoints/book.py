@@ -112,6 +112,12 @@ async def retrieve_opnions_by_books(book_id: str) -> List[Opinion] :
     return opnions
 
 
+@book_router.post("/opinion", status_code=201)
+async def create_user(opnion: Opinion):
+    await opnion.create()
+    return {"message": "Opnion has been saved"}
+
+
 def clean_tweet(tweet):
     tweet = BeautifulSoup(tweet, 'lxml').get_text()
     
