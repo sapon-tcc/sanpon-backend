@@ -7,6 +7,7 @@ services:
     container_name: sanpon_backend
     ports:
       - "80:8000"
+    environment:
+      - MONGODB_URL=mongodb+srv://dnery:W5KiGT82Qjigc5ir@cluster0.wrjta.mongodb.net/?retryWrites=true&w=majority
     volumes:
-      - ./app:/app
-      - ./app/.env:/app/.env
+      - .env:/app/.env
