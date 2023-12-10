@@ -61,8 +61,8 @@ async def retrieve_opnions_by_books(book_id: str) -> List[Opinion] :
     interpreter = False
     for opnion in opnions:
         
-        if opnion.classification:
-            continue
+        # if opnion.classification:
+        #     continue
         
         tflite_path = './app/model/modelo.tflite'
         interpreter = tflite.Interpreter(model_path=tflite_path)
