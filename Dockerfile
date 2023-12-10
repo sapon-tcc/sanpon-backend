@@ -10,6 +10,9 @@ COPY requirements.txt .
 # Install the requirements
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Install pt words
+RUN python -m spacy download pt_core_news_sm
+
 # Define as variáveis de ambiente necessárias para o debugpy
 ENV PYTHONUNBUFFERED=1
 ENV PYTHONPATH=/app

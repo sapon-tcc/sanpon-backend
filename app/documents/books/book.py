@@ -4,6 +4,7 @@ from typing import List, Optional
 class Opinion(Document):
     text: Optional[str]
     book_id: Optional[str]
+    predict: Optional[float]
     
     class Settings:
         name = "opinioes"
