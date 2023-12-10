@@ -48,10 +48,19 @@ async def retrieve_books(book_id: str) -> BookItem:
 @book_router.get("/opinion/{book_id}", status_code=200)
 async def retrieve_opnions_by_books(book_id: str) -> List[Opinion] :
     opnions = await Opinion.find({"book_id": book_id}).to_list()
-    
+    interpreter = False
+    opnions_to_update = []
     for opnion in opnions:
+        
+        if opnion.predict:
+            if not opnion.classification:
+                opnions_to_update.append(opnion)
+            
+            continue
+        
         tflite_path = './app/model/modelo.tflite'
         interpreter = tf.lite.Interpreter(model_path=tflite_path)
+        
         interpreter.allocate_tensors()
         # Obtenha os tensores de entrada e saída
         input_tensor_index = interpreter.get_input_details()[0]['index']
@@ -83,7 +92,23 @@ async def retrieve_opnions_by_books(book_id: str) -> List[Opinion] :
         predictions = output()[0]
 
         opnion.predict = predictions[0] * 100
+        opnions_to_update.append(opnion)
+
+    tf.keras.backend.clear_session()
+    del interpreter
+    
+    
+    for opnion in opnions_to_update:
+        atualizacao = {
+            "$set": {
+                "predict": opnion.predict,
+                "classification": "Positiva" if opnion.predict >= 0.5 else "Negativa",
+            }
+        }
         
+        await opnion.update(atualizacao)
+    
+    
     return opnions
 
 
