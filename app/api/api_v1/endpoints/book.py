@@ -110,7 +110,7 @@ async def retrieve_opnions_by_books(book_id: str) -> List[Opinion] :
         atualizacao = {
             "$set": {
                 "predict": opnion.predict,
-                "classification": "Positiva" if  else "Negativa",
+                "classification": classification,
             }
         }
         await opnion.update(atualizacao)
