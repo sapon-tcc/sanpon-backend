@@ -102,7 +102,7 @@ async def retrieve_opnions_by_books(book_id: str) -> List[Opinion] :
         if opnion.predict >= 70:
             classification = "Positivo"
         elif opnion.predict <= 40:
-            classification = "Neutro"
+            classification = "Negativo"
         else:
             classification = "Neutro"
             
