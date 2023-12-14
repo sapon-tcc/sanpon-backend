@@ -125,7 +125,7 @@ async def create_user(opnion: Opinion):
     return {"message": "Opnion has been saved"}
 
 
-def clean_tweclean_textet(text):
+def clean_text(text):
     text = BeautifulSoup(text, 'lxml').get_text()
     
     text = re.sub(r'@', ' ', text)
