@@ -73,7 +73,7 @@ async def retrieve_opnions_by_books(book_id: str) -> List[Opinion] :
         output = interpreter.tensor(interpreter.get_output_details()[0]['index'])
     
         text = opnion.text
-        text = clean_tweet(text)
+        text = clean_text(text)
         
         vocab = {word: idx + 1 for idx, word in enumerate(set(text))}
         text_encoded = encode_words(text, vocab)
@@ -125,17 +125,17 @@ async def create_user(opnion: Opinion):
     return {"message": "Opnion has been saved"}
 
 
-def clean_tweet(tweet):
-    tweet = BeautifulSoup(tweet, 'lxml').get_text()
+def clean_tweclean_textet(text):
+    text = BeautifulSoup(text, 'lxml').get_text()
     
-    tweet = re.sub(r'@', ' ', tweet)
-    tweet = re.sub(r'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\\(\\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', ' ', tweet)
-    tweet = re.sub(r'\d+', ' ', tweet)
-    tweet = tweet.replace("htt", "").replace("\n", "")
-    tweet = re.sub(r' +', ' ', tweet)
+    text = re.sub(r'@', ' ', text)
+    text = re.sub(r'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\\(\\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', ' ', text)
+    text = re.sub(r'\d+', ' ', text)
+    text = text.replace("htt", "").replace("\n", "")
+    text = re.sub(r' +', ' ', text)
     
     # Tokenização usando nltk
-    words = word_tokenize(tweet)
+    words = word_tokenize(text)
 
     # Remova stop words (opcional)
     stop_words = set(stopwords.words('portuguese'))
