@@ -99,11 +99,18 @@ async def retrieve_opnions_by_books(book_id: str) -> List[Opinion] :
         predictions = output()[0]
 
         opnion.predict = predictions[0] * 100
+        if opnion.predict >= 70:
+            classification = "Positivo"
+        elif opnion.predict <= 40:
+            classification = "Neutro"
+        else:
+            classification = "Neutro"
+            
         
         atualizacao = {
             "$set": {
                 "predict": opnion.predict,
-                "classification": "Positiva" if opnion.predict >= 50 else "Negativa",
+                "classification": "Positiva" if  else "Negativa",
             }
         }
         await opnion.update(atualizacao)
